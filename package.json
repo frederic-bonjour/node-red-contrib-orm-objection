@@ -1,0 +1,36 @@
+{
+  "author": {
+    "name": "Frédéric Bonjour",
+    "url": "http://www.fruityfred.com/"
+  },
+  "bugs": {
+    "url": ""
+  },
+  "bundleDependencies": false,
+  "dependencies": {
+    "knex": "^0.21.6",
+    "mysql2": "^2.2.5",
+    "objection": "^2.2.3"
+  },
+  "deprecated": false,
+  "description": "A Node-RED node to use the Objection ORM to connect to a MySQL database.",
+  "homepage": "https://github.com/frederic-bonjour/node-red-contrib-orm-objection",
+  "keywords": [
+    "node-red",
+    "orm",
+    "objection",
+    "mysql"
+  ],
+  "license": "",
+  "name": "node-red-contrib-orm-objection",
+  "node-red": {
+    "nodes": {
+      "objection-orm": "src/main.js"
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/frederic-bonjour/node-red-contrib-orm-objection.git"
+  },
+  "version": "1.0.0"
+}
