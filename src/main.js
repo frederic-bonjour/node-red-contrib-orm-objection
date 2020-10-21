@@ -91,7 +91,6 @@ module.exports = (RED) => {
     this.on('input', async msg => {
       const models = this.context().global.objectionModels;
       const modelName = msg.topic || config.model;
-      console.log(modelName);
       if (!models[modelName]) {
         this.error(`msg.topic must contain a valid Model name (received: "${modelName}").`);
       }
@@ -99,11 +98,21 @@ module.exports = (RED) => {
       try {
         this.setState('querying');
         let qb = models[modelName].query(knex);
+
         if (msg.byId) {
           qb.findById(msg.byId);
         } else if (msg.where) {
           qb.where(msg.where);
         }
+
+        if (msg.patch && msg.patch.id && msg.patch.props) {
+          qb.patchAndFetchById(msg.patch.id, msg.patch.props);
+        }
+
+        if (msg.orderBy) {
+          qb.orderBy(msg.orderBy);
+        }
+
         const graph = msg.graph || config.graph;
         if (graph) {
           qb.withGraphFetched(graph);
