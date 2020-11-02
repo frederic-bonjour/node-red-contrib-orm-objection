@@ -37,6 +37,7 @@ module.exports = (RED) => {
     this.on('close', async done => {
       console.log("ObjectionORM: close");
       knex.destroy();
+      knex = null;
       this.emit('state');
       done();
     });
