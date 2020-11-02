@@ -9,30 +9,33 @@ module.exports = (RED) => {
     RED.nodes.createNode(this, config);
 
     this.connect = async () => {
-      this.emit('state', 'connecting');
-      knex = Knex({
-        client: 'mysql2',
-        connection: {
-          host: config.host,
-          port: config.port,
-          user: config.user,
-          password: config.password,
-          database: config.database,
-          timezone : "+00:00",
-          dateStrings: true,
-        },
-        ...knexSnakeCaseMappers(),
-      });
+      if (!knex) {
+        console.log("ObjectionORM: connect");
+        this.emit('state', 'connecting');
+        knex = Knex({
+          client: 'mysql2',
+          connection: {
+            host: config.host,
+            port: config.port,
+            user: config.user,
+            password: config.password,
+            database: config.database,
+            timezone : "+00:00",
+            dateStrings: true,
+          },
+          ...knexSnakeCaseMappers(),
+        });
 
-      // Give the knex object to Objection.
-
-      Model.knex(knex);
+        // Give the knex object to Objection.
+        Model.knex(knex);
+      }
 
       await knex.select(knex.raw('1'));
       this.emit('state', 'connected');
     };
 
     this.on('close', async done => {
+      console.log("ObjectionORM: close");
       knex.destroy();
       this.emit('state');
       done();
