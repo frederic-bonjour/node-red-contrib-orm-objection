@@ -30,6 +30,9 @@ module.exports = (RED) => {
         Model.knex(knex);
       }
 
+      // Expose knex instance to Node-RED global context.
+      this.context().global.set('knex', knex);
+
       await knex.select(knex.raw('1'));
       this.emit('state', 'connected');
     };
